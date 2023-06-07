@@ -1,12 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container text-white">
         <h2>CRUD операции с использованием jQuery и AJAX</h2>
 
         <!-- Форма для создания новой задачи -->
-        <form method="post" id="addTaskForm">
-            <<div class="form-group">
+        <form method="post" id="addTaskForm" class="text-white">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+            <div class="form-group">
                 <label for="user_id" class="text-light">ID пользователя:</label>
                 <input type="number" class="form-control form-control-dark" id="user_id" name="user_id" required>
             </div>
@@ -30,31 +32,11 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
 
-        <script>
-            $(document).ready(function() {
-                $('#addTaskForm').on('submit', function(e) {
-                    e.preventDefault();
-                    var formData = $(this).serializeArray();
-                    $.ajax({
-                        url: '{{ route("tasks.store") }}',
-                        type: 'POST',
-                        dataType: 'json',
-                        data: formData,
-                        success: function(response) {
-                            alert(response.message);
-                        },
-                        error: function(xhr) {
-                            alert('Something went wrong!');
-                        }
-                    });
-                });
-            });
-        </script>
 
 
 
         <!-- Таблица для отображения списка задач -->
-        <table class="table mt-3">
+        <table class="table mt-3 text-white">
             <thead>
             <tr>
                 <th>ID</th>
@@ -110,17 +92,63 @@
 
     <!-- Скрипты для выполнения AJAX запросов -->
     <script>
+
+        function updateTaskList() {
+            $.ajax({
+                url: '/tasks?list=update', // Здесь нужно указать URL-адрес на сервере, который возвращает список задач в формате JSON.
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    var taskList = $('#task-list');
+                    taskList.empty(); // Очистить существующий список задач.
+
+
+                    var obj = jQuery.parseJSON(response);
+
+                    console.log('tetst');
+                    console.log(obj);
+
+                    // Добавить новые строки для каждой задачи из полученных данных.
+                    $.each(obj.tasks, function(index, task) {
+
+                        var obj = jQuery.parseJSON(response);
+
+                        console.log('tetst');
+                        console.log(obj);
+
+                        var rowHtml = '<tr data-id="' + task.id + '">' +
+                            '<td>' + task.id + '</td>' +
+                            '<td>' + task.title + '</td>' +
+                            '<td>' + task.description + '</td>' +
+                            '<td>' + (task.is_public ? 'Да' : 'Нет') + '</td>' +
+                            '<td>' + task.image_url + '</td>' +
+                            '<td>' +
+                            '<button class="btn btn-primary edit-btn mr-2">Редактировать</button>' +
+                            '<button class="btn btn-danger delete-btn">Удалить</button>' +
+                            '</td>' +
+                            '</tr>';
+                        taskList.append(rowHtml);
+                    });
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error('Ошибка при загрузке списка задач:', textStatus, errorThrown);
+                    alert('Не удалось загрузить список задач. Попробуйте еще раз.');
+                }
+            });
+        }
+
         $(document).ready(function() {
             // Отправка данных для создания новой задачи
-            $('#create-form').submit(function(event) {
+            $('#addTaskForm').submit(function(event) {
                 event.preventDefault();
                 $.ajax({
                     url: '{{ url('/tasks') }}',
                     method: 'POST',
                     data: $(this).serialize(),
                     success: function(response) {
+                        updateTaskList();
                         alert('Задача успешно создана.');
-                        window.location.reload();
+                        // window.location.reload();
                     },
                     error: function() {
                         alert('Произошла ошибка при создании задачи.');

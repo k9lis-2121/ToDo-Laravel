@@ -7,9 +7,12 @@ use App\Models\Task;
 
 class TaskController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $tasks = Task::all();
+        if($request->input('list') == 'update'){
+            return response()->json(json_encode(compact('tasks')));
+        }
         return view('tasks.index', compact('tasks'));
     }
 
