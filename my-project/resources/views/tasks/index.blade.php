@@ -5,9 +5,8 @@
         <h2>CRUD операции с использованием jQuery и AJAX</h2>
 
         <!-- Форма для создания новой задачи -->
-        <form id="create-form" class="bg-dark">
-            @csrf
-            <div class="form-group">
+        <form method="post" id="addTaskForm">
+            <<div class="form-group">
                 <label for="user_id" class="text-light">ID пользователя:</label>
                 <input type="number" class="form-control form-control-dark" id="user_id" name="user_id" required>
             </div>
@@ -15,20 +14,43 @@
                 <label for="title" class="text-light">Заголовок:</label>
                 <input type="text" class="form-control form-control-dark" id="title" name="title" required>
             </div>
+
             <div class="form-group">
-                <label for="description" class="text-light">Описание:</label>
-                <textarea class="form-control form-control-dark" id="description" name="description"></textarea>
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" name="description"></textarea>
             </div>
             <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="is_public" name="is_public">
+                <input type="checkbox" class="form-check-input" id="is_public" value="1" name="is_public">
                 <label class="form-check-label text-light" for="is_public">Публичная задача</label>
             </div>
             <div class="form-group">
                 <label for="image_url" class="text-light">URL изображения:</label>
                 <input type="text" class="form-control form-control-dark" id="image_url" name="image_url">
             </div>
-            <button type="submit" class="btn btn-primary">Создать</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+
+        <script>
+            $(document).ready(function() {
+                $('#addTaskForm').on('submit', function(e) {
+                    e.preventDefault();
+                    var formData = $(this).serializeArray();
+                    $.ajax({
+                        url: '{{ route("tasks.store") }}',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: formData,
+                        success: function(response) {
+                            alert(response.message);
+                        },
+                        error: function(xhr) {
+                            alert('Something went wrong!');
+                        }
+                    });
+                });
+            });
+        </script>
+
 
 
         <!-- Таблица для отображения списка задач -->

@@ -19,7 +19,11 @@ class TaskController extends Controller
         $task->user_id = $request->input('user_id');
         $task->title = $request->input('title');
         $task->description = $request->input('description');
-        $task->is_public = $request->input('is_public');
+        if($request->input('is_public') !== 'on') {
+            $task->is_public = $request->input('is_public');
+        }else{
+            $task->is_public = 0;
+        }
         $task->image_url = $request->input('image_url');
         $task->save();
         return response()->json(['success' => true]);

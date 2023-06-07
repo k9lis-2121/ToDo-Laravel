@@ -27,10 +27,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/tasks', [App\Http\Controllers\TaskController::class, 'index']); // отображение списка задач
-    Route::post('/tasks', [App\Http\Controllers\TaskController::class, 'store']); // создание новой задачи
-    Route::put('/tasks/{id}', [App\Http\Controllers\TaskController::class, 'update']); // обновление информации о задаче
-    Route::delete('/tasks/{id}', [App\Http\Controllers\TaskController::class, 'destroy']); // удаление задачи
+    Route::get('/tasks', [App\Http\Controllers\TaskController::class, 'index'])->name('tasks.index'); // отображение списка задач
+    Route::post('/tasks', [App\Http\Controllers\TaskController::class, 'store'])->name('tasks.store');; // создание новой задачи
+    Route::put('/tasks/{id}', [App\Http\Controllers\TaskController::class, 'update'])->name('tasks.update'); // обновление информации о задаче
+    Route::delete('/tasks/{id}', [App\Http\Controllers\TaskController::class, 'destroy'])->name('tasks.destroy'); // удаление задачи
 
 
 });
