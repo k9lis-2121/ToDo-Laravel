@@ -5,30 +5,31 @@
         <h2>CRUD операции с использованием jQuery и AJAX</h2>
 
         <!-- Форма для создания новой задачи -->
-        <form id="create-form">
+        <form id="create-form" class="bg-dark">
             @csrf
             <div class="form-group">
-                <label for="user_id">ID пользователя:</label>
-                <input type="number" class="form-control" id="user_id" name="user_id" required>
+                <label for="user_id" class="text-light">ID пользователя:</label>
+                <input type="number" class="form-control form-control-dark" id="user_id" name="user_id" required>
             </div>
             <div class="form-group">
-                <label for="title">Заголовок:</label>
-                <input type="text" class="form-control" id="title" name="title" required>
+                <label for="title" class="text-light">Заголовок:</label>
+                <input type="text" class="form-control form-control-dark" id="title" name="title" required>
             </div>
             <div class="form-group">
-                <label for="description">Описание:</label>
-                <textarea class="form-control" id="description" name="description"></textarea>
+                <label for="description" class="text-light">Описание:</label>
+                <textarea class="form-control form-control-dark" id="description" name="description"></textarea>
             </div>
             <div class="form-group form-check">
                 <input type="checkbox" class="form-check-input" id="is_public" name="is_public">
-                <label class="form-check-label" for="is_public">Публичная задача</label>
+                <label class="form-check-label text-light" for="is_public">Публичная задача</label>
             </div>
             <div class="form-group">
-                <label for="image_url">URL изображения:</label>
-                <input type="text" class="form-control" id="image_url" name="image_url">
+                <label for="image_url" class="text-light">URL изображения:</label>
+                <input type="text" class="form-control form-control-dark" id="image_url" name="image_url">
             </div>
             <button type="submit" class="btn btn-primary">Создать</button>
         </form>
+
 
         <!-- Таблица для отображения списка задач -->
         <table class="table mt-3">
@@ -60,30 +61,30 @@
         </table>
 
         <!-- Форма для редактирования задачи (скрыта по умолчанию) -->
-        <form id="edit-form" style="display:none;">
+        <form id="edit-form" style="display:none;" class="bg-dark">
             @csrf
             @method('PUT')
             <input type="hidden" name="id" id="edit-id">
             <div class="form-group">
-                <label for="edit-title">Заголовок:</label>
-                <input type="text" class="form-control" id="edit-title" name="title" required>
+                <label for="edit-title" class="text-light">Заголовок:</label>
+                <input type="text" class="form-control form-control-dark" id="edit-title" name="title" required>
             </div>
             <div class="form-group">
-                <label for="edit-description">Описание:</label>
-                <textarea class="form-control" id="edit-description" name="description"></textarea>
+                <label for="edit-description" class="text-light">Описание:</label>
+                <textarea class="form-control form-control-dark" id="edit-description" name="description"></textarea>
             </div>
             <div class="form-group form-check">
                 <input type="checkbox" class="form-check-input" id="edit-is_public" name="is_public">
-                <label class="form-check-label" for="edit-is_public">Публичная задача</label>
+                <label class="form-check-label text-light" for="edit-is_public">Публичная задача</label>
             </div>
             <div class="form-group">
-                <label for="edit-image_url">URL изображения:</label>
-                <input type="text" class="form-control" id="edit-image_url" name="image_url">
+                <label for="edit-image_url" class="text-light">URL изображения:</label>
+                <input type="text" class="form-control form-control-dark" id="edit-image_url" name="image_url">
             </div>
             <button type="submit" class="btn btn-primary">Сохранить</button>
             <button type="button" class="btn btn-secondary ml-2 cancel-btn">Отмена</button>
         </form>
-    </div>
+
 
     <!-- Скрипты для выполнения AJAX запросов -->
     <script>
