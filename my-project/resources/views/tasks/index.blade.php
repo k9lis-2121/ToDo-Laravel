@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <h2>CRUD операции с использованием jQuery и AJAX</h2>
-<!---->
+
         <!-- Форма для создания новой задачи -->
         <form id="create-form" class="bg-dark">
             @csrf
