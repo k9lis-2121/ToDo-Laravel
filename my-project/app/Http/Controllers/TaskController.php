@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Task;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
     public function index(Request $request)
     {
-        $tasks = Task::all();
+        $tasks = Task::all()->where('user_id', Auth::id());
         if($request->input('list') == 'update'){
             return response()->json(json_encode(compact('tasks')));
         }
@@ -22,7 +23,7 @@ class TaskController extends Controller
         $task->user_id = $request->input('user_id');
         $task->title = $request->input('title');
         $task->description = $request->input('description');
-        if($request->input('is_public') !== 'on') {
+        if($request->input('is_public') !== null) {
             $task->is_public = $request->input('is_public');
         }else{
             $task->is_public = 0;
@@ -39,8 +40,9 @@ class TaskController extends Controller
         $task->description = $request->input('description');
         $task->is_public = $request->input('is_public');
         $task->image_url = $request->input('image_url');
+
         $task->save();
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'input' => $request]);
     }
 
     public function destroy($id)
